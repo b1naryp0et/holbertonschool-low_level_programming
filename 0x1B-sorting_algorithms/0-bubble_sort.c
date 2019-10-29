@@ -1,7 +1,6 @@
 #include "sort.h"
 #include <stddef.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 /**
  * bubble_sort - Sort
