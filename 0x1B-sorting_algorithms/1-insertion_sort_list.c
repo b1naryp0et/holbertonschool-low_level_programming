@@ -1,43 +1,43 @@
 #include "sort.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
- * insertion_sort_list - Sort
- * @list: List
+ * insertion_sort_list - List
+ * @list: Array
  */
 
 void insertion_sort_list(listint_t **list)
+
 {
 	listint_t *x;
 	listint_t *y;
 	listint_t *z;
 
-	if (!list || !(*list))
+	if (list == NULL || *list == NULL)
 		return;
-	for (y = x = (*list)->next; y != NULL; y = x = y->next)
+	x = y = (*list)->next;
+	for (; x; x = y = x->next)
 	{
-		z = x->prev;
-		while (z != NULL && x->n < z->n)
-			z = z->prev;
-		if (z == x->prev)
-			continue;
-		y = x->prev;
-		if (x->next != NULL)
-			x->next->prev = x->prev;
-		x->prev->next = x->next;
-		if (z)
+		if (y->prev->n > y->n)
 		{
-			x->next = z->next;
-			x->prev = z;
-			z->next = x;
-			x->next->prev = x;
+			z = x = y->prev;
+			for (; z && y->n < z->n; z = y->prev)
+			{
+				if (y->next)
+					y->next->prev = z;
+				z->next = y->next;
+				y->next = z;
+				y->prev = z->prev;
+				if (z->prev == NULL)
+					*list = y;
+				else
+					z->prev->next = y;
+				z->prev = y;
+				print_list(*list);
+			}
 		}
 		else
-		{
-			x->prev = NULL;
-			x->next = *list;
-			(*list)->prev = x;
-			*list = x;
-		}
-		print_list(*list);
+			continue;
 	}
 }
